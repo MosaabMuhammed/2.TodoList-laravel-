@@ -13,7 +13,8 @@ class TodosController extends Controller
      */
     public function index()
     {
-        $todos = new \App\Todo;
+        $todos = \App\Todo::all();
+
         return view('todos.index', compact('todos'));
     }
 
