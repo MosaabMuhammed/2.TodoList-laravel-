@@ -2,6 +2,7 @@
 
 @section('content')
     <h1 class="display-1"> Todo List: </h1>
+    @include('inc.messages')
     @foreach( $todos as $todo )
         <div class="well">
             <span class="label label-warning">{{ $todo->due }}</span>

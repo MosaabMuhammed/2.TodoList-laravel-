@@ -37,7 +37,21 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Created!';
+        $this->validate( request(), [
+            'Title:' => 'required',
+            'Body:'  =>  'required|min:2',
+            'Due:'   =>  'required'
+        ]);
+
+        $todo = new Todo;
+        $todo->name = request('Title:');
+        $todo->body = request('Body:');
+        $todo->due = request('Due:');
+
+        $todo->save();
+
+        return redirect('/todo')->with('success', 'Todo Created!');
+
     }
 
     /**
@@ -60,7 +74,8 @@ class TodosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $todo = Todo::find($id);
+        return view('todos.edit', compact('todo'));
     }
 
     /**
@@ -72,7 +87,20 @@ class TodosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate( request(), [
+            'Title:' => 'required',
+            'Body:'  =>  'required|min:2',
+            'Due:'   =>  'required'
+        ]);
+
+        $todo = Todo::find($id);
+        $todo->name = request('Title:');
+        $todo->body = request('Body:');
+        $todo->due = request('Due:');
+
+        $todo->save();
+
+        return redirect('/todo/'. $todo->id)->with('success', 'Todo Edited!');
     }
 
     /**
@@ -83,6 +111,9 @@ class TodosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo = Todo::find($id);
+        $todo->delete();
+
+        return redirect('/todo')->with('success', 'Todo Deleted!');
     }
 }
